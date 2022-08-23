@@ -53,10 +53,4 @@ wea, temperature, highest, lowest = get_weather()
 data = {"weather":{"value":wea,"color":get_random_color()},"temperature":{"value":temperature,"color":get_random_color()},
 "words":{"value":get_words(),"color":get_random_color()},"highest": {"value":highest,"color":get_random_color()},
 "lowest":{"value":lowest, "color":get_random_color()}}
-print(data)
-count = 0
-for user_id in user_ids:
-  res = wm.send_template(user_id, template_id, data)
-  count+=1
-
-print("发送了" + str(count) + "条消息")
+res = wm.send_template(user_ids, template_id, data)
