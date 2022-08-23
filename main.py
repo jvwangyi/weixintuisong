@@ -9,17 +9,17 @@ import json
 
 today = today = datetime.now().date()
 # start_date = os.environ['START_DATE']
-city = os.environ['CITY']
+citys = os.environ['CITY'].split("\n")
 # birthday = os.environ['BIRTHDAY']
 
 app_id = os.environ["APP_ID"]
 app_secret = os.environ["APP_SECRET"]#微信推送账户
 
-user_id = os.environ["USER_ID"]#目标id
+user_ids = os.environ["USER_ID"].split("\n")#目标id
 template_id = os.environ["TEMPLATE_ID"]#接口模板
 
 
-def get_weather():
+def get_weather(city):
   url = "http://autodev.openspeech.cn/csp/api/v2.1/weather?openId=aiuicus&clientType=android&sign=android&city=" + city
   res = requests.get(url).json()
   weather = res['data']['list'][0]
@@ -50,11 +50,13 @@ def get_random_color():
 client = WeChatClient(app_id, app_secret)#测试账号
 wm = WeChatMessage(client)
 
-wea, temperature, highest, lowest = get_weather()
-data = {"date":{"value":json.dumps(today,default=str).split("\"")[1],"color":get_random_color()},
-"weather":{"value":wea,"color":get_random_color()},
-"temperature":{"value":temperature,"color":get_random_color()},
-"words":{"value":get_words(),"color":get_random_color()},
-"highest": {"value":highest,"color":get_random_color()},
-"lowest":{"value":lowest, "color":get_random_color()}}
-res = wm.send_template(user_id, template_id, data)
+for i in range(4):
+  wea, temperature, highest, lowest = get_weather(citys[i])
+  data = {"date":{"value":json.dumps(today,default=str).split("\"")[1],"color":get_random_color()},
+  "weather":{"value":wea,"color":get_random_color()},
+  "temperature":{"value":temperature,"color":get_random_color()},
+  "words":{"value":get_words(),"color":get_random_color()},
+  "highest": {"value":highest,"color":get_random_color()},
+  "lowest":{"value":lowest, "color":get_random_color()}}
+  print(data)
+  res = wm.send_template(user_ids[i], template_id, data)
