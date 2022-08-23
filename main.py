@@ -6,7 +6,7 @@ import requests
 import os
 import random
 
-today = datetime.now()
+today = today = datetime.now().date()
 # start_date = os.environ['START_DATE']
 city = os.environ['CITY']
 # birthday = os.environ['BIRTHDAY']
@@ -50,7 +50,10 @@ client = WeChatClient(app_id, app_secret)#测试账号
 wm = WeChatMessage(client)
 
 wea, temperature, highest, lowest = get_weather()
-data = {"weather":{"value":wea,"color":get_random_color()},"temperature":{"value":temperature,"color":get_random_color()},
-"words":{"value":get_words(),"color":get_random_color()},"highest": {"value":highest,"color":get_random_color()},
+data = {"date":{"value":json.dumps(today,default=str).split("\"")[1],"color":get_random_color()},
+"weather":{"value":wea,"color":get_random_color()},
+"temperature":{"value":temperature,"color":get_random_color()},
+"words":{"value":get_words(),"color":get_random_color()},
+"highest": {"value":highest,"color":get_random_color()},
 "lowest":{"value":lowest, "color":get_random_color()}}
 res = wm.send_template(user_id, template_id, data)
