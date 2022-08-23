@@ -5,6 +5,7 @@ from wechatpy.client.api import WeChatMessage, WeChatTemplate
 import requests
 import os
 import random
+import json
 
 today = today = datetime.now().date()
 # start_date = os.environ['START_DATE']
