@@ -14,7 +14,7 @@ city = os.environ['CITY']
 app_id = os.environ["APP_ID"]
 app_secret = os.environ["APP_SECRET"]#微信推送账户
 
-user_ids = os.environ["USER_ID"].split("\n")#目标id
+user_id = os.environ["USER_ID"]#目标id
 template_id = os.environ["TEMPLATE_ID"]#接口模板
 
 
@@ -53,4 +53,4 @@ wea, temperature, highest, lowest = get_weather()
 data = {"weather":{"value":wea,"color":get_random_color()},"temperature":{"value":temperature,"color":get_random_color()},
 "words":{"value":get_words(),"color":get_random_color()},"highest": {"value":highest,"color":get_random_color()},
 "lowest":{"value":lowest, "color":get_random_color()}}
-res = wm.send_template(user_ids, template_id, data)
+res = wm.send_template(user_id, template_id, data)
